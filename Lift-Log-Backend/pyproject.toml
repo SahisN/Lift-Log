@@ -14,6 +14,15 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = [
-    "testcontainers[postgres]>=4.15.0",
+dev = ["testcontainers[postgres]>=4.15.0"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = [
+    "Body",
+    "Depends",
+    "fastapi.Body",
+    "fastapi.Depends",
+    "fastapi.Query",
+    "fastapi.Header",
+    "fastapi.Path",
 ]

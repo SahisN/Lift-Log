@@ -42,6 +42,7 @@ def get_container_sync_url() -> str | None:
     return _container_sync_url
 
 
+@lru_cache
 def inject_engine() -> None:
     settings = inject_app_settings()
     url = settings.secrets.async_database_url.get_secret_value()
@@ -65,11 +66,19 @@ async def inject_postgres_session(
     factory: async_sessionmaker[AsyncSession] = Depends(_inject_session_factory),  # noqa: B008
 ) -> t.AsyncGenerator[AsyncSession, None]:
     async with factory() as session:
-        yield session
+        try:
+            yield session
+            await session.commit()
+        except Exception:
+            await session.rollback()
+            raise
 
 
 async def stop_testcontainer() -> None:
     global _container, _container_sync_url
+
+    inject_engine.cache_clear()
+    _inject_session_factory.cache_clear()
 
     if _container is not None:
         print("Stopping testcontainer")

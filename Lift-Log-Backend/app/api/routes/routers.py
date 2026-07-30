@@ -4,7 +4,7 @@ base_router = APIRouter()
 sys_router = APIRouter(tags=["SYS"])
 api_router = APIRouter(prefix="/api/v1")
 
-workout_router = APIRouter(prefix="/workout", tags=["WORKOUT"])
+exercise_router = APIRouter(prefix="/workout", tags=["EXERCISE"])
 
 _built = False
 
@@ -18,7 +18,7 @@ def build_router() -> APIRouter:
     if _built:
         return base_router
 
-    api_router.include_router(workout_router)
+    api_router.include_router(exercise_router)
 
     base_router.include_router(api_router)
     base_router.include_router(sys_router)
