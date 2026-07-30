@@ -1,9 +1,10 @@
 from uuid import UUID
 
-from base import Base
 from sqlalchemy import Boolean, String, text
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import Mapped, mapped_column
+
+from .base import Base
 
 
 class ExerciseModel(Base):

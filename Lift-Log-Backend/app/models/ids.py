@@ -24,7 +24,7 @@ class BaseId:
     def __str__(self) -> str:
         return str(self.value)
 
-    @dataclass
+    @classmethod
     def generate(cls) -> t.Self:
         return cls(uuid.uuid4())
 
