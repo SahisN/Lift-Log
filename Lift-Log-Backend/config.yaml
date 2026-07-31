@@ -1,0 +1,7 @@
+app:
+  name: "crm_svc"
+
+database:
+  pool_min_size: 2
+  pool_max_size: 10
+  echo: false

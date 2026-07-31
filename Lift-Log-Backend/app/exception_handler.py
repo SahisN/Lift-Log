@@ -1,4 +1,4 @@
-from exceptions.exception import BaseError
+from errors.base_error import BaseError
 from fastapi import Request
 from fastapi.responses import JSONResponse
 

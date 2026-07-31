@@ -8,7 +8,22 @@ dependencies = [
     "alembic>=1.18.5",
     "asyncpg>=0.31.0",
     "fastapi[standard]>=0.140.0",
+    "psycopg[binary]>=3.3.4",
     "pydantic>=2.13.4",
     "pydantic-settings>=2.14.2",
     "sqlalchemy>=2.0.51",
+]
+
+[dependency-groups]
+dev = ["testcontainers[postgres]>=4.15.0"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = [
+    "Body",
+    "Depends",
+    "fastapi.Body",
+    "fastapi.Depends",
+    "fastapi.Query",
+    "fastapi.Header",
+    "fastapi.Path",
 ]
