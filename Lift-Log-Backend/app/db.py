@@ -1,5 +1,6 @@
 import typing as t
 from functools import lru_cache
+from pathlib import Path
 
 from deps import inject_app_settings
 from fastapi import Depends
@@ -63,8 +64,8 @@ def inject_session_factory() -> async_sessionmaker[AsyncSession]:
 
 
 async def inject_postgres_session(
-    factory: async_sessionmaker[AsyncSession] = Depends(_inject_session_factory),  # noqa: B008
-) -> t.AsyncGenerator[AsyncSession, None]:
+    factory: async_sessionmaker[AsyncSession] = Depends(_inject_session_factory),
+) -> t.AsyncGenerator[AsyncSession]:
     async with factory() as session:
         try:
             yield session
@@ -72,6 +73,17 @@ async def inject_postgres_session(
         except Exception:
             await session.rollback()
             raise
+
+
+def run_alembic_migrations(sync_url: str) -> None:
+    from alembic import command
+    from alembic.config import Config
+
+    cfg = Config()
+    cfg.set_main_option("script_location", str(Path(__file__).parent / "alembic"))
+    cfg.set_main_option("sqlalchemy.url", sync_url)
+    command.upgrade(cfg, "head")
+    print("Alembic migrations applied")
 
 
 async def stop_testcontainer() -> None:

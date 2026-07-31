@@ -1,6 +1,7 @@
-from uuid import UUID
+from __future__ import annotations
 
 from models.exercise_model import ExerciseModel
+from models.ids import ExerciseId
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -21,8 +22,8 @@ class ExerciseRepo:
             await self._db.rollback()
             raise
 
-    async def get(self, id: UUID) -> ExerciseModel | None:
-        return await self._db.get(ExerciseModel, id)
+    async def get(self, id: ExerciseId) -> ExerciseModel | None:
+        return await self._db.get(ExerciseModel, id.value)
 
     async def list(self, limit: int = 20, offset: int = 0) -> list[ExerciseModel]:
         result = await self._db.execute(

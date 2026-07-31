@@ -1,29 +1,41 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
+from models.base import Base
+from models.exercise_model import ExerciseModel
+from settings import get_settings
+from sqlalchemy import engine_from_config, pool
 
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
 config = context.config
 
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-target_metadata = None
+_container = None
+_provided_url = config.get_main_option("sqlalchemy.url")
 
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+if _provided_url and not _provided_url.startswith("driver://"):
+    pass
+
+else:
+    settings = get_settings()
+    sync_url = settings.secrets.database_url.get_secret_value()
+
+    if sync_url:
+        config.set_main_option("sqlalchemy.url", sync_url)
+
+    else:
+        print("DATABASE_URL not set, starting testcontainer for migrations")
+        from testcontainers.postgres import PostgresContainer
+
+        _container = PostgresContainer("postgres:17-alpine")
+        _container.start()
+        test_container_url: str = _container.get_connection_url().replace(
+            "psycopg2", "psycopg"
+        )
+        config.set_main_option("sqlalchemy.url", test_container_url)
+
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
@@ -64,9 +76,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
@@ -76,3 +86,7 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
+
+
+if _container is not None:
+    _container.stop()

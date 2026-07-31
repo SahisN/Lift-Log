@@ -4,7 +4,7 @@ base_router = APIRouter()
 sys_router = APIRouter(tags=["SYS"])
 api_router = APIRouter(prefix="/api/v1")
 
-exercise_router = APIRouter(prefix="/workout", tags=["EXERCISE"])
+exercise_router = APIRouter(prefix="/exercise", tags=["EXERCISE"])
 
 _built = False
 

@@ -6,14 +6,15 @@ from schemas.exercise_schema import CreateExerciseRequest
 
 
 class ExerciseService:
-    def __init__(self, repo: ExerciseModel):
+    def __init__(self, repo: ExerciseRepo):
         self._repo = repo
 
-    async def create_execrise(self, payload: CreateExerciseRequest) -> ExerciseRepo:
-        execrise = ExerciseRepo(**payload.model_dump())
-        return await self._repo.save(execrise)
+    async def create_execrise(self, payload: CreateExerciseRequest) -> ExerciseModel:
 
-    async def get_execrise(self, execrise_id: ExerciseId) -> ExerciseRepo:
+        exercise = ExerciseModel(**payload.model_dump())
+        return await self._repo.save(exercise)
+
+    async def get_execrise(self, execrise_id: ExerciseId) -> ExerciseModel:
         execrise = await self._repo.get(execrise_id)
         if not execrise:
             raise ExerciseNotFound()
