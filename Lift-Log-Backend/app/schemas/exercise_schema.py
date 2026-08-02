@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+import typing as t
+
 from models.exercise_model import ExerciseModel
 from pydantic import BaseModel, ConfigDict
-
-
-class GetExerciseRequest(BaseModel):
-    id: str
+from services.pagination_service import PaginatedData
 
 
 class GetExerciseResponse(BaseModel):
@@ -50,4 +49,20 @@ class CreateExerciseResponse(BaseModel):
             muscle_group=exercise_model.muscle_group,
             category=exercise_model.category,
             is_custom=exercise_model.is_custom,
+        )
+
+
+class ListExerciseResponse(BaseModel):
+    data: list[GetExerciseResponse]
+    page: int
+    page_size: int
+    total_pages: int
+
+    @classmethod
+    def from_model(cls, exercises: PaginatedData) -> ListExerciseResponse:
+        return ListExerciseResponse(
+            data=[GetExerciseResponse.from_model(item) for item in exercises.items],
+            page=exercises.page,
+            page_size=exercises.page_size,
+            total_pages=exercises.total_pages,
         )

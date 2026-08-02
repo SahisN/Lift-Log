@@ -11,7 +11,7 @@ _built = False
 
 def build_router() -> APIRouter:
     from api.routes import sys  # noqa: F401
-    from api.routes.v1 import execrise  # noqa: F401
+    from api.routes.v1 import exercise  # noqa: F401
 
     global _built
 
