@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import typing as t
-
 from models.exercise_model import ExerciseModel
 from pydantic import BaseModel, ConfigDict
 from services.pagination_service import PaginatedData
@@ -11,7 +9,7 @@ class GetExerciseResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: str
     exercise_name: str
-    muscle_group: str
+    muscle_group: list[str]
     category: str
     is_custom: bool
 
@@ -29,7 +27,7 @@ class GetExerciseResponse(BaseModel):
 class CreateExerciseRequest(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     exercise_name: str
-    muscle_group: str
+    muscle_group: list[str]
     category: str
     is_custom: bool
 
@@ -37,7 +35,7 @@ class CreateExerciseRequest(BaseModel):
 class CreateExerciseResponse(BaseModel):
     id: str
     exercise_name: str
-    muscle_group: str
+    muscle_group: list[str]
     category: str
     is_custom: bool
 

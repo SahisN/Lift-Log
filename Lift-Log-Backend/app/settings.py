@@ -6,12 +6,17 @@ from typing import Any
 
 import yaml
 from pydantic import SecretStr
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Secrets(BaseSettings):
     database_url: SecretStr = SecretStr("")
     async_database_url: SecretStr = SecretStr("")
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+    )
 
 
 class DatabaseConfig:

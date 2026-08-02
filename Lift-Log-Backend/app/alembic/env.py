@@ -2,7 +2,9 @@ from logging.config import fileConfig
 
 from alembic import context
 from models.base import Base
+from models.exercise_log_model import ExerciseLogModel
 from models.exercise_model import ExerciseModel
+from models.exercise_profile_model import ExerciseProfileModel
 from settings import get_settings
 from sqlalchemy import engine_from_config, pool
 

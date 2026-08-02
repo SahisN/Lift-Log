@@ -30,7 +30,7 @@ async def list_exercise(
 async def get_exercise(
     exercise_id: str, service: ExerciseService = Depends(get_exercise_service)
 ) -> GetExerciseResponse:
-    exercise = await service.get_exercise(execrise_id=ExerciseId(exercise_id))
+    exercise = await service.get_exercise(exercise_id=ExerciseId(exercise_id))
     return GetExerciseResponse.from_model(exercise)
 
 
