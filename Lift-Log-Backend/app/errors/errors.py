@@ -9,3 +9,8 @@ class InvalidInternalIDError(BaseError):
 class ExerciseNotFound(BaseError):
     status: int = 404
     message: str = "Exercise Not Found"
+
+
+class ExerciseProfileNotFound(BaseError):
+    status: int = 404
+    message: str = "Exercise Profile Not Found"
