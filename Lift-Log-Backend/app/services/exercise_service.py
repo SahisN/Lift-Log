@@ -1,7 +1,7 @@
 from errors.errors import ExerciseNotFound
 from models.exercise_model import ExerciseModel
 from models.ids import ExerciseId
-from repo.deps.wiring import ExerciseRepo
+from repos.deps.wiring import ExerciseRepo
 from schemas.exercise_schema import CreateExerciseRequest
 
 from services.pagination_service import PaginatedData, PaginationService

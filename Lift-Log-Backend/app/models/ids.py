@@ -32,3 +32,13 @@ class BaseId:
 @dataclass(frozen=True, init=False)
 class ExerciseId(BaseId):
     pass
+
+
+@dataclass(frozen=True, init=False)
+class ProfileId(BaseId):
+    pass
+
+
+@dataclass(frozen=True, init=False)
+class UserId(BaseId):
+    pass

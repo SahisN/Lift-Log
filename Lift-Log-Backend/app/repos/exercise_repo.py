@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class ExerciseRepo:
-    def __init__(self, db: AsyncSession):
+    def __init__(self, db: AsyncSession) -> None:
         self._db = db
 
     async def save(self, exercise: ExerciseModel) -> ExerciseModel:

@@ -58,7 +58,7 @@ class ListExerciseResponse(BaseModel):
 
     @classmethod
     def from_model(cls, exercises: PaginatedData) -> ListExerciseResponse:
-        return ListExerciseResponse(
+        return cls(
             data=[GetExerciseResponse.from_model(item) for item in exercises.items],
             page=exercises.page,
             page_size=exercises.page_size,
