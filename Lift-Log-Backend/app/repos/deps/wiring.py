@@ -1,7 +1,7 @@
 from db import inject_postgres_session
 from fastapi import Depends
-from repo.exercise_profile_repo import ExerciseProfileRepo
-from repo.exercise_repo import ExerciseRepo
+from repos.exercise_profile_repo import ExerciseProfileRepo
+from repos.exercise_repo import ExerciseRepo
 from sqlalchemy.ext.asyncio import AsyncSession
 
 

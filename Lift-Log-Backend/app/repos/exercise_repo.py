@@ -22,8 +22,8 @@ class ExerciseRepo:
             await self._db.rollback()
             raise
 
-    async def get(self, id: ExerciseId) -> ExerciseModel | None:
-        return await self._db.get(ExerciseModel, id.value)
+    async def get(self, exercise_id: ExerciseId) -> ExerciseModel | None:
+        return await self._db.get(ExerciseModel, exercise_id.value)
 
     async def list(self, limit: int = 20, offset: int = 0) -> list[ExerciseModel]:
         result = await self._db.execute(

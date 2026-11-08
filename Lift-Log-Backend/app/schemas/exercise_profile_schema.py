@@ -27,7 +27,7 @@ class CreateExerciseProfileResponse(BaseModel):
 class GetExerciseProfileResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: str
-    current_weight: int
+    current_weight: int | float
     current_reps: int
     current_sets: int
     achieved_date: date
@@ -35,7 +35,7 @@ class GetExerciseProfileResponse(BaseModel):
 
     @classmethod
     def from_model(
-        cls, exercise: GetExerciseResponse, exercise_profile: ExerciseProfileModel
+        cls, exercise_profile: ExerciseProfileModel
     ) -> GetExerciseProfileResponse:
         return cls(
             id=str(exercise_profile.id),
@@ -43,12 +43,12 @@ class GetExerciseProfileResponse(BaseModel):
             current_reps=exercise_profile.current_reps,
             current_sets=exercise_profile.current_sets,
             achieved_date=exercise_profile.achieved_date,
-            exercise=exercise,
+            exercise=exercise_profile.exercise,
         )
 
 
 class ListExerciseProfileResponse(BaseModel):
-    data: GetExerciseProfileResponse
+    data: list[GetExerciseProfileResponse]
     page: int
     page_size: int
     total_pages: int
