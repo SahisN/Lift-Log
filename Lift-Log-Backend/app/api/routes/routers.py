@@ -5,6 +5,7 @@ sys_router = APIRouter(tags=["SYS"])
 api_router = APIRouter(prefix="/api/v1")
 
 exercise_router = APIRouter(prefix="/exercise", tags=["EXERCISE"])
+exercise_profile_router = APIRouter(prefix="/exercise-profile", tags=["EXERCISE_PROFILE"])
 
 _built = False
 
@@ -12,6 +13,7 @@ _built = False
 def build_router() -> APIRouter:
     from api.routes import sys  # noqa: F401
     from api.routes.v1 import exercise  # noqa: F401
+    from api.routes.v1 import exercise_profile # noqa: F401
 
     global _built
 
@@ -19,6 +21,7 @@ def build_router() -> APIRouter:
         return base_router
 
     api_router.include_router(exercise_router)
+    api_router.include_router(exercise_profile_router)
 
     base_router.include_router(api_router)
     base_router.include_router(sys_router)
